@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<form th:action="@{/save_course/{id}(id=${course.getid()})}"
+	th:object="${course}" method="post">
+	<div class="container">
+		<h1>Edit Course</h1>
+		<p>Please fill in this form to edit a Course.</p>
+		<hr>
+
+		<label for="coursename"><b>Name</b></label> 
+		<input type="text" th:field="*{coursename}"> 
+		
+		<label for="courseid"><b>Course Id</b></label> 
+		<input type="text" th:field="*{courseid}" required> 
+		
+		<label for="year"><b>Year</b></label>
+		<input type="text" th:field="*{year}"> 
+		
+		<label for="semester"><b>Semester</b></label>
+		<input type="text" th:field="*{semester}"> 
+		
+		<label for="project_per"><b>Project Weight</b></label> 
+		<input type="number" th:field="*{project_per}" step="0.1" min="0" max="1" required> 
+		
+		<label for="exams_per"><b>Exams Weight</b></label> 
+		<input type="number" th:field="*{exams_per}"  step="0.1" min="0" max="1" required>
+
+		<hr>
+		<button type="submit" class="registerbtn">Save</button>
+	</div>
+</form>
+<style>
+* {
+	box-sizing: border-box
+}
+
+/* Add padding to containers */
+.container {
+	padding: 16px;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password], input[type=number] {
+	width: 100%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	display: inline-block;
+	border: none;
+	background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password], input[type=number] :focus {
+	background-color: #ddd;
+	outline: none;
+}
+input[type=numerber]::-webkit-outer-spin-button,
+input[type=numerber]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Overwrite default styles of hr */
+hr {
+	border: 1px solid #f1f1f1;
+	margin-bottom: 25px;
+}
+
+/* Set a style for the submit/register button */
+.registerbtn {
+	background-color: #d4af7a;
+	color: white;
+	padding: 16px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	opacity: 0.9;
+}
+
+.registerbtn:hover {
+	opacity: 1;
+}
+
+/* Add a blue text color to links */
+a {
+	color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+	background-color: #f1f1f1;
+	text-align: center;
+}
+</style>
+</html>

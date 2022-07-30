@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="container">
+		<form th:action="@{/home_page}">
+			<button class="button_back">
+				<i class="fa fa-chevron-circle-left"></i>
+			</button>
+		</form>
+	<h2>List Of Students</h2>
+	<form th:action=@{/delete_student} th:object="${student}" method="post">
+		<ul class="responsive-table">
+			<li class="table-header">
+				<div class="col col-1">Email</div>
+				<div class="col col-2">Name</div>
+
+				<div class="col col-3">Am</div>
+				<div class="col col-4">Exams</div>
+				<div class="col col-5">Project</div>
+				<div class="col col-6">Final Grade</div>
+				<div class="col col-7"></div>
+			</li>
+			<li class="table-row" th:each="student: ${liststudents}">
+				<div class="col col-1" th:text="${student.getemail()}">email</div>
+				<div class="col col-2"
+					th:text="${student.getfirst_name()} +' '+${student.getsecond_name()} ">Name</div>
+				<div class="col col-3" th:text="${student.getam()}">Am</div>
+				<div class="col col-4" th:text="${student.getf_exam()}">f_exam</div>
+				<div class="col col-5" th:text="${student.getproject()}">project</div>
+				<div class="col col-5" th:text="${student.getfinal_grade()}">final_grade</div>
+				<div class="col col-7">
+					<div class="menu-nav">
+						<div class="dropdown">
+							<div class="dropbtn">
+								<i class="fa fa-bars"></i>
+							</div>
+							<div class="dropdown-content">
+								<a th:href="@{'/edit_student/' + ${student.getid()}}">Edit</a> <a
+									th:href="@{'/delete_student/' + ${student.getid()}}">Delete</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</form>
+
+	<form th:action="@{/new_student{id}(id=${course.getid()})}">
+		<button type="submit" class="button_plus"></button>
+	</form>
+	<h2 >
+		 Grades Statistics
+	</h2>
+	<ul class="responsive-table">
+		<li class="table-header">
+			<div class="col col-1">Minimum</div>
+			<div class="col col-2">Maximum</div>
+			<div class="col col-3">Mean</div>
+			<div class="col col-4">Standard Deviation</div>
+			<div class="col col-5">Variance</div>
+			<div class="col col-6">skewness</div>
+			<div class="col col-7"></div>
+		</li>
+		<li class="table-row">
+			<div class="col col-1" th:text="${#numbers.formatDecimal(ds.getMin(), 1, 'COMMA', 2, 'POINT')}">Minimum</div>
+			<div class="col col-2" th:text="${#numbers.formatDecimal(ds.getMax(), 1, 'COMMA', 2, 'POINT')}">Maximum</div>
+			<div class="col col-3" th:text="${#numbers.formatDecimal(ds.getMean(), 1, 'COMMA', 2, 'POINT')}">Mean</div>
+			<div class="col col-4" th:text="${#numbers.formatDecimal(ds.getStandardDeviation(), 1, 'COMMA', 2, 'POINT')}">Standard</div>
+			<div class="col col-5" th:text="${#numbers.formatDecimal(ds.getVariance(), 1, 'COMMA', 2, 'POINT')}">Variance</div>
+			<div class="col col-5" th:text="${#numbers.formatDecimal(ds.getSkewness(), 1, 'COMMA', 2, 'POINT')}">skewness</div>
+		</li>
+	</ul>
+</div>
+<style>
+body {
+	font-family: 'lato', sans-serif;
+}
+
+.container {
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+h2 {
+	font-size: 26px;
+	margin: 20px 0;
+	text-align: center;
+}
+
+h2 small {
+	font-size: 0.5em;
+}
+
+.responsive-table li {
+	border-radius: 3px;
+	padding: 25px 30px;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 25px;
+}
+
+.table-header {
+	background-color: #d4af7a;
+	font-size: 14px;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+}
+
+.table-row {
+	background-color: #ffffff;
+	box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+}
+
+.col-1 {
+	flex-basis: 90%;
+}
+
+.col-2 {
+	flex-basis: 75%;
+}
+
+.col-3 {
+	flex-basis: 60%;
+}
+
+.col-4 {
+	flex-basis: 50%;
+}
+
+.col-5 {
+	flex-basis: 40%;
+}
+
+.col-6 {
+	flex-basis: 45%;
+}
+
+.col-7 {
+	flex-basis: 18%;
+}
+
+@media all and (max-width: 767px) {
+	.table-header {
+		display: none;
+	}
+	.table-row li {
+		display: block;
+	}
+	.table-row li .col {
+		flex-basis: 100%;
+	}
+	.table-row li .col .col {
+		display: flex;
+		padding: 10px 0;
+	}
+	.table-row li .col .col .col before {
+		color: #6C7A89;
+		padding-right: 10px;
+		content: attr(data-label);
+		flex-basis: 50%;
+		text-align: right;
+	}
+}
+
+.button_plus {
+	position: relative;
+	width: 35px;
+	height: 35px;
+	background: #fff;
+	cursor: pointer;
+	border: 2px solid #d4af7a;
+	/* Mittig */
+	top: 42%;
+	left: 49%;
+}
+
+.button_plus:after {
+	content: '';
+	position: absolute;
+	transform: translate(-50%, -50%);
+	height: 4px;
+	width: 50%;
+	background: #d4af7a;
+	top: 50%;
+	left: 50%;
+}
+
+.button_plus:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #d4af7a;
+	height: 50%;
+	width: 4px;
+}
+
+.button_plus:hover:before, .button_plus:hover:after {
+	background: #fff;
+	transition: 0.2s;
+}
+
+.button_plus:hover {
+	background-color: #d4af7a;
+	transition: 0.2s;
+}
+
+.button_back {
+	color: black;
+	background-color: #fff;
+	border: none;
+	font-size: 20px;
+	position: relative;
+	top: 50%;
+	left: 5%;
+}
+
+.button_back:hover {
+	color: #d4af7a;
+	transition: 0.2s;
+}
+
+.btn {
+	background-color: White;
+	border: none;
+	color: red;
+	padding: 8px 16px;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.dropbtn {
+	background-color: #fff;
+	color: black;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #fff;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+	background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+	background-color: #fff;
+}
+.output {
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+blockquote {
+    background: #eee;
+    border-radius: 5px;
+    margin: 20px 60px;
+}
+
+blockquote p {
+    padding: 15px;
+}
+
+blockquote p::before {
+    content: '\201C';
+}
+
+blockquote p::after {
+    content: '\201D';
+}
+
+[contenteditable='true'] {
+    caret-color: red;
+}
+h2.centered {
+	right: 100 px;
+}
+</style>
+</html>
